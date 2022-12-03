@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html">
+<h:head>
+    <link rel="stylesheet" href="resources/css/main.css"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <title>web-lab-3-finale</title>
+</h:head>
+<h:body>
+    <div class="center">
+        <div class="right-block">
+            <form method="get" action="${pageContext.request.contextPath}/ControllerServlet" id="form">
+                <div class="data">
+                    X:<!--такие штуки надо убрать и оставить только outputLabel-->
+                    <h:outputLabel styleClass="y-lable" for="r"/> <!--это для слайдера или для скрытого поля?-->
+                    <h:inputHidden id="r" styleClass="R" value="#"/>
+                    <p:slider for="r" step="1" minValue="-4" maxValue="4" displayTemplate="R = {value}" onSlideEnd="#"/>
+                    <br></br>
+                    Y:
+                    <h:outputLabel class="bold-label" for="y-text">Y[-5..5]: </h:outputLabel>
+                    <h:inputText styleClass="y-input" id="y-text" autocomplete="off" a:placeholder="Число от -5 до 5..."
+                                 value="#" validatorMessage = "Введите координату Y">
+                        <f:validateRequired/>
+                        <f:validateDoubleRange minimum="-5" maximum="5"/>
+                    </h:inputText>
+                    R:
+                    <h:selectBooleanCheckbox label="1" value="#" id="p1X"/>
+                    <label for="p1X">1</label>
+                    <h:selectBooleanCheckbox label="2" value="#" id="p2X"/>
+                    <label for="p2X">2</label>
+                    <h:selectBooleanCheckbox label="3" value="#" id="p3X"/>
+                    <label for="p3X">3</label>
+                    <h:selectBooleanCheckbox label="4" value="#" id="p4X"/>
+                    <label for="p4X">4</label>
+                    <h:selectBooleanCheckbox label="5" value="#" id="p5X"/>
+                    <label for="p5X">5</label>
+                </div>
+                <br></br>
+                <input id="submit" type="submit"></input>
+            </form>
+            <table id="tableWithResults">
+                <tr>
+                    <td>x</td>
+                    <td>y</td>
+                    <td>r</td>
+                    <td>result</td>
+                    <td>execute_time</td>
+                    <td>local_time</td>
+                </tr>
+                <c:forEach items="$" var="">
+                    <tr>
+                        <td>$</td>
+                        <td>$</td>
+                    </tr>
+                </c:forEach>
+            </table>
+        </div>
+    </div>
+</h:body>
+</html>
