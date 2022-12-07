@@ -1,0 +1,89 @@
+body {
+    background-color: #fcab8a;
+}
+
+div.header{
+    font-family: "Monotype Corsiva", cursive;
+    width: 100%;
+}
+
+div.name {
+    font-family: inherit;
+    font-size: 50px;
+    font-style: oblique;
+    padding-left: 1em;
+    font-weight: bold;
+}
+
+div.numbers {
+    text-align: right;
+    font-size: 25px;
+}
+
+.center{
+    display: block;
+    margin: auto;
+    text-align: center;
+}
+
+table.color {
+    margin: auto;
+}
+
+table.color td{
+    width: 3%;
+}
+
+div.container {
+    display: grid;
+    justify-items: stretch;
+}
+
+svg {
+    display: none;
+    width: 25%;
+    margin-top: 3%;
+    margin-bottom: 3%;
+    font-size: 2em;
+}
+
+button#pointsSubmit{
+    text-align: center;
+    background-color: #fc805f;
+    border-width: 1px;
+    border-radius: 3px;
+}
+
+#x-slider.x-slider{
+    margin: auto;
+}
+
+#submit{
+    text-align: center;
+    background-color: #fc805f;
+    border-width: 1px;
+    border-radius: 3px;
+    height: 25px;
+}
+
+form {
+    display: inline-block;
+    padding-left: 1%;
+    padding-right: 1%;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 5%;
+    margin-bottom: 5%;
+}
+
+table.result-table td{
+    border: 1px solid black;
+    padding: 3px;
+}
+
+table.result-table{
+    border-collapse: collapse;
+    border-width: 1px;
+    width: 72%;
+    margin: auto;
+}

@@ -3,7 +3,8 @@
 
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:f="http://xmlns.jcp.org/jsf/core"
-      xmlns:h="http://xmlns.jcp.org/jsf/html">
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui">
 <!--      xmlns:a="http://xmlns.jcp.org/jsf/passthrough"-->
 <!--      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"-->
 
@@ -27,13 +28,16 @@
         </div>
     </div>
     <br/><br/>
-    <h:outputText id="clock" styleClass="clock" value="Текущее время: #{clocks.dateTime}"/>
-    <br/>
-    <p:poll interval="9" listener="#{clocks.updateTime}" update="clock"> </p:poll>
-    <br/>
-    <h:link outcome="goToMain">
-        Перейти к графику
-    </h:link>
+    <div class="content">
+        <h:outputText id="clock" styleClass="clock" value="Текущее время: #{clockBean.dateTime}"/>
+        <br/>
+        <p:poll interval="9" listener="#{clockBean.updateTime}" update="clock"> </p:poll>
+        <br/>
+        <h:link outcome="toMain">
+            Перейти к графику
+        </h:link>
+    </div>
+
 </h:body>
 
 </html>
