@@ -1,19 +1,30 @@
-//package com.github.diosa.web3;
-//
-//import javax.faces.bean.ApplicationScoped;
-//import javax.faces.bean.ManagedBean;
-//import java.io.Serializable;
-//import java.time.LocalDateTime;
-//import java.time.format.DateTimeFormatter;
-//
-//
-//@ManagedBean(name = "clock", eager = true)
-//@ApplicationScoped
-//public class ClockBean implements Serializable {
-//    DateTimeFormatter dtf = DateTimeFormatter.ofPattern("HH:mm:ss dd.MM.yyyy ");
-//    LocalDateTime localDate;
-//
-//    public LocalDateTime getLocalDate() {
-//        return LocalDateTime.now();
-//    }
-//}
+package com.github.diosa.web3;
+
+import javax.enterprise.context.ApplicationScoped;
+import javax.inject.Named;
+import java.io.Serializable;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+
+@Named
+@ApplicationScoped
+public class ClockBean implements Serializable {
+    private LocalDateTime dateTime;
+    private final DateTimeFormatter dateFormat;
+
+    public ClockBean() {
+        this.dateTime = LocalDateTime.now();
+        this.dateFormat = DateTimeFormatter.ofPattern("HH:mm:ss");
+    }
+
+    public String getDateTime() {
+        return this.dateTime.format(dateFormat);
+    }
+
+    public void setDateTime(LocalDateTime dateTime) {
+        this.dateTime = dateTime;
+    }
+    public void updateTime(){
+        this.dateTime = LocalDateTime.now();
+    }
+}

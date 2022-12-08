@@ -2,7 +2,6 @@
 //
 //
 //import javax.annotation.PostConstruct;
-//
 //import javax.annotation.Resource;
 //import javax.faces.bean.ApplicationScoped;
 //import javax.faces.bean.ManagedBean;
@@ -11,81 +10,76 @@
 //import javax.transaction.*;
 //import java.io.Serializable;
 //import java.text.SimpleDateFormat;
+//import java.time.LocalDateTime;
 //import java.util.ArrayList;
-//import java.util.Calendar;
 //import java.util.List;
 //
 //@ManagedBean
 //@ApplicationScoped
 //public class ResultsBean implements Serializable {
-//    private List<Point> points;
+//    public List<Point> getResultPointsList() {
+//        return resultPointsList;
+//    }
+//
+//    public void setResultPointsList(List<Point> resultPointsList) {
+//        this.resultPointsList = resultPointsList;
+//    }
+//
+//    public void setNewPoint(Point newPoint) {
+//        this.newPoint = newPoint;
+//    }
+//
+//    private List<Point> resultPointsList;
+//
+//    public Point getNewPoint() {
+//        return newPoint;
+//    }
+//
 //    private Point newPoint = new Point();
 //    private Point lastPoint;
 //
-//    private final String PERSISTENCE_UNIT_NAME = "orbis";
+//    private final String PERSISTENCE_UNIT_NAME = "dot";
 //    @PersistenceContext(unitName = PERSISTENCE_UNIT_NAME)
 //    private EntityManager entityManager;
 //
 //    public ResultsBean() {
-//        this.points = new ArrayList<>();
+//        this.resultPointsList = new ArrayList<>();
 //    }
 //
 //    public ResultsBean(ArrayList<Point> points) {
-//        this.points = points;
+//        this.resultPointsList = points;
 //    }
 //
 //    @Resource
 //    private UserTransaction userTransaction;
 //
 //    public List<Point> loadPointsFromDB() {
-//        return entityManager.createQuery("SELECT e FROM Point e").getResultList();
+//        return entityManager.createQuery("SELECT e FROM Points e").getResultList();
 //    }
 //
 //    public synchronized void addPointsToDB(Point point) throws Exception {
 //        userTransaction.begin();
 //        entityManager.persist(point);
-//        System.out.println(point.toJSON());
-//        userTransaction.commit();
-//    }
-//
-//    public synchronized void clearDB(Point point) throws SystemException, NotSupportedException, HeuristicRollbackException, HeuristicMixedException, RollbackException {
-//        userTransaction.begin();
-//        entityManager.remove(entityManager.merge(point));
 //        userTransaction.commit();
 //    }
 //
 //    @PostConstruct
 //    private void loadPoints() {
-//        points = loadPointsFromDB();
+//        this.resultPointsList = loadPointsFromDB();
 //    }
 //
 //    public synchronized void addPoint() {
-//        newPoint.setCurrentTime(new SimpleDateFormat("HH:mm:ss dd.MM.yyyy").format(Calendar.getInstance().getTime()));
-//        if (Validator.isValidDate(newPoint)) {
-//            try {
-//                addPointsToDB(newPoint);
-//            } catch (Exception e) {
-//                e.printStackTrace();
-//            }
-//            points.add(0, newPoint);
-//            lastPoint = newPoint;
-//            newPoint = new Point();
-//        } else {
-//            newPoint.setHit("Некорректно введены данные!");
-//        }
-//    }
-//
-//    public synchronized void clear() {
+//        long startTime = System.nanoTime();
+//        this.newPoint.checkHit();
+//        this.newPoint.setCurrent(LocalDateTime.now());
+//        this.newPoint.setExec((System.nanoTime() - startTime) / 1000000d);
 //        try {
-//            for (Point p: points) {
-//                clearDB(p);
-//            }
-//            points.clear();
-//            newPoint.setHit("Таблица успешно очищена!");
-//        } catch (SystemException | NotSupportedException | HeuristicRollbackException | HeuristicMixedException | RollbackException e) {
+//            addPointsToDB(this.newPoint);
+//        } catch (Exception e) {
 //            e.printStackTrace();
 //        }
-//        points.clear();
+//        this.resultPointsList.add(0, this.newPoint);
+//        this.lastPoint = this.newPoint;
+//        this.newPoint = new Point();
 //    }
-//
 //}

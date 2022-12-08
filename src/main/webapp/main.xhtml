@@ -20,7 +20,6 @@
     <div class="name">
         Осокина Мария Юрьевна
         <br/>
-
     </div>
 </div>
 <div class="center">
@@ -210,36 +209,32 @@
 <!--        Проверить попадание точек в область-->
 <!--    </button>-->
     <br/>
-    <h:form method="get" action="${pageContext.request.contextPath}/ControllerServlet" id="form">
+    <h:form method="get" id="form">
         <div class="data">
 
-
             X:<!--такие штуки надо убрать и оставить только outputLabel-->
-            <h:inputHidden id="x" styleClass="x" value="#{shotManageBean.shot.x}">
+            <h:inputHidden id="x" styleClass="x" value="#{resultsBean.newPoint.x}">
                 <f:validateRequired/>
                 <f:validateDoubleRange minimum="-4" maximum="4"/>
             </h:inputHidden>
             <p:slider for="x" step="1" id="x-slider" styleClass="x-slider" onSlideStart="3"
-                      minValue="-4" maxValue="4" displayTemplate="X = {value}"
-                      onSlideEnd="loadGraph(document.getElementById('input-form:R').getAttribute('value'))"/>
+                      minValue="-4" maxValue="4" displayTemplate="X = {value}"/>
             <p:message for="x"/>
             <br/>
-
 
             Y:
             <!--                    <h:outputLabel class="bold-label" for="y-text">Y[-5..5]: </h:outputLabel>-->
             <!--                  a:placeholder="Число от -5 до 5..."  -->
-            <h:inputText styleClass="y-input" for="y-inputHidden" autocomplete="off"
-                         value="#{shotManageBean.shot.y}" validatorMessage="Введите координату Y">
+            <h:inputText styleClass="y-input" for="y-inputHidden" autocomplete="off" validatorMessage="Введите координату Y">
             </h:inputText>
             <p:message for="y-inputHidden"/>
-            <h:inputHidden id="y-inputHidden" value="#{shotManageBean.shot.y}">
+            <h:inputHidden id="y-inputHidden" value="#{resultsBean.newPoint.y}">
                 <f:validateRequired/>
                 <f:validateDoubleRange minimum="-5" maximum="5"/>
             </h:inputHidden>
             <br/>
 
-
+<!--            Добавить значение для каждого соответствующего поля сущности-->
             R:
             <h:selectBooleanCheckbox label="1" id="p1X" onclick="drawGraphic(this, document.getElementById('svg1'))"/>
             <label for="p1X">1</label>
@@ -253,7 +248,7 @@
             <label for="p5X">5</label>
         </div>
         <br/>
-        <h:commandButton id="submit" type="submit" value="Отправить" action="#{shotManageBean.addShot}"/>
+        <h:commandButton id="submit" type="submit" value="Отправить" action="#{resultsBean.addPoint()}"/>
     </h:form>
 
 
@@ -266,14 +261,14 @@
             <td>Попадание</td>
             <td>Время обработки запроса</td>
         </tr>
-        <c:forEach items="${shotManageBean.shots}" var="shot">
+        <c:forEach items="${resultsBean.resultPointsList}" var="shot">
             <tr>
-                <td>${shot.local_time}</td>
+                <td>${shot.current}</td>
                 <td>${shot.x}</td>
                 <td>${shot.y}</td>
                 <td>${shot.r}</td>
-                <td>${shot.result}</td>
-                <td>${shot.exec_time}</td>
+                <td>${shot.res}</td>
+                <td>${shot.exec}</td>
             </tr>
         </c:forEach>
     </table>
