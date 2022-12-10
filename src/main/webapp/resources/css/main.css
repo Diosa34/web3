@@ -2,12 +2,12 @@ body {
     background-color: #fcab8a;
 }
 
-div.header{
+.header{
     font-family: "Monotype Corsiva", cursive;
     width: 100%;
 }
 
-div.name {
+.name {
     font-family: inherit;
     font-size: 50px;
     font-style: oblique;
@@ -15,7 +15,7 @@ div.name {
     font-weight: bold;
 }
 
-div.numbers {
+.numbers {
     text-align: right;
     font-size: 25px;
 }
@@ -30,28 +30,20 @@ table.color {
     margin: auto;
 }
 
-table.color td{
+.color td{
     width: 3%;
 }
 
-div.container {
-    display: grid;
-    justify-items: stretch;
-}
+/*.container {*/
+/*    display: grid;*/
+/*    justify-items: stretch;*/
+/*}*/
 
 svg {
-    display: none;
     width: 25%;
     margin-top: 3%;
     margin-bottom: 3%;
     font-size: 2em;
-}
-
-button#pointsSubmit{
-    text-align: center;
-    background-color: #fc805f;
-    border-width: 1px;
-    border-radius: 3px;
 }
 
 #x-slider.x-slider{
@@ -66,22 +58,21 @@ button#pointsSubmit{
     height: 25px;
 }
 
-form {
+#form {
     display: inline-block;
     padding-left: 1%;
     padding-right: 1%;
     margin-left: auto;
     margin-right: auto;
-    margin-top: 5%;
     margin-bottom: 5%;
 }
 
-table.result-table td{
+.result-table td{
     border: 1px solid black;
     padding: 3px;
 }
 
-table.result-table{
+.result-table table{
     border-collapse: collapse;
     border-width: 1px;
     width: 72%;
