@@ -12,16 +12,13 @@ function addArea(r) {
               L 480 480" stroke="black" fill="#fc${areaFill}f""/>`
 }
 
-function setArea(checkbox) {
+function checkboxClick(checkbox){
     if (!checkbox.checked) {
         document.getElementById("g"+checkbox.id[6]).innerHTML = '';
     } else {
         addArea(checkbox.id[6]);
+        drawPointsFromDB(checkbox.id[6])
     }
-}
-
-function checkboxClick(checkbox){
-    setArea(checkbox);
 }
 
 function svgClick(event, svg, r) {
@@ -35,10 +32,9 @@ function svgClick(event, svg, r) {
     let y = -1 * (yPartOfSvg - 0.5) * 3 * r
     formClick(x, y)
 }
-
-
-function drawPoint(svg, x, y){
-    svg.innerHTML += "<circle cx='" + x + "' cy='" + y + "' r='7' fill='black'/>";
+// когда кликают по свг, то точки отрисовываются на свг, но точки из бд отрисовываются в группах, при чём при каждой смене радиуса
+function drawPoint(svgOrG, x, y, resultFill='black'){
+    svgOrG.innerHTML += `<circle cx="${x}" cy="${y}" r='7' fill="${resultFill}"/>`;
 }
 
 
@@ -49,4 +45,24 @@ function formClick(x, y){
     x_elem.value = x;
     y_elem.value = y;
     submit_elem.click();
+}
+
+let pointsList = document.querySelectorAll(".result-table td")
+
+function drawPointsFromDB(r){
+    for (let i = 10; i < pointsList.length; i += 10) {
+        if (pointsList[i+2+r].innerHTML === "true") {
+            let result = pointsList[i+8].innerHTML;
+            let x = Number(pointsList[i+1]);
+            let y = Number(pointsList[i+2]);
+            let fill = "FireBrick";
+            if (result.startsWith("In")) {
+                fill = "MediumAquamarine";
+            }
+            if (x <= 960 && y <= 960) {
+                drawPoint("g"+i, x, y, fill)
+            }
+        }
+    }
+//строчка для извлечения радиусов, в которые точка попала let rList = result.substring(result.indexOf(":") + 2, result.length()).split(" ");
 }
