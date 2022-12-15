@@ -26,23 +26,10 @@ body {
     text-align: center;
 }
 
-table.color {
-    margin: auto;
-}
-
-.color td{
-    width: 3%;
-}
-
-/*.container {*/
-/*    display: grid;*/
-/*    justify-items: stretch;*/
-/*}*/
-
 svg {
     width: 25%;
-    margin-top: 3%;
-    margin-bottom: 3%;
+    margin-top: 2%;
+    margin-bottom: 2%;
     font-size: 2em;
 }
 
@@ -50,8 +37,7 @@ svg {
     margin: auto;
 }
 
-#submit{
-    text-align: center;
+input#submit{
     background-color: #fc805f;
     border-width: 1px;
     border-radius: 3px;
@@ -64,7 +50,7 @@ svg {
     padding-right: 1%;
     margin-left: auto;
     margin-right: auto;
-    margin-bottom: 5%;
+    margin-bottom: 2%;
 }
 
 .result-table td{
@@ -72,8 +58,7 @@ svg {
     padding: 3px;
 }
 
-.result-table table{
-    border-collapse: collapse;
+table.result-table {
     border-width: 1px;
     width: 72%;
     margin: auto;

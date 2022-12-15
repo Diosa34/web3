@@ -29,12 +29,18 @@
     <div class="container">
 <!--        1 деление - 80 пиксеелей -->
         <div>
-            <svg viewBox="0 0 960 960" id="svg" onclick="svgClick(event, this, 1)">
+            <svg viewBox="0 0 960 960" id="svg" onclick="svgClick(event, this)">
                 <g id="g5"></g>
                 <g id="g4"></g>
                 <g id="g3"></g>
                 <g id="g2"></g>
                 <g id="g1"></g>
+
+                <g id="dot1"></g>
+                <g id="dot2"></g>
+                <g id="dot3"></g>
+                <g id="dot4"></g>
+                <g id="dot5"></g>
                 <line x1="480" y1="0" x2="480" y2="960" stroke="black" stroke-width="3"/>
                 <line x1="0" y1="480" x2="960" y2="480" stroke="black" stroke-width="3"/>
 
@@ -87,42 +93,50 @@
             </svg>
         </div>
     </div>
-    <script src="resources/js/main.js" type="text/javascript"/>
+
     <h:form method="get" id="form">
         <div class="data">
+            <h:inputHidden id="hiddenX" value="#{resultsBean.newPoint.hiddenX}"/>
+            <h:inputHidden id="hiddenY" value="#{resultsBean.newPoint.hiddenY}"/>
             X:
-            <h:inputHidden id="x" value="#{resultsBean.newPoint.x}">
-                <f:validateRequired/>
-                <f:validateDoubleRange minimum="-4" maximum="4"/>
-            </h:inputHidden>
-            <p:slider for="x" step="1" id="x-slider" onSlideStart="3"
+            <h:outputText id="output-X" value="#{resultsBean.newPoint.x}"/>
+            <h:inputHidden id="x" value="#{resultsBean.newPoint.x}"/>
+            <p:slider for="x" step="1" display="output-X" id="x-slider" onSlideStart="3"
                       minValue="-4" maxValue="4" displayTemplate="X = {value}"/>
             <p:message for="x"/>
-            <br></br>
+            <br/>
             Y ∈ [-5;5]:
-            <h:inputText for="y-inputHidden" autocomplete="off" validatorMessage="Введите координату Y [-5;5]"></h:inputText>
-            <h:inputHidden id="y-inputHidden" value="#{resultsBean.newPoint.y}">
+            <h:inputText id="y-inputHidden" value="#{resultsBean.newPoint.y}" autocomplete="off" validatorMessage="Координата Y должна быть в диапазоне [-5;5]">
                 <f:validateRequired/>
                 <f:validateDoubleRange minimum="-5" maximum="5"/>
-            </h:inputHidden>
-            <p:message for="y-inputHidden"/>
+            </h:inputText>
+            <br/>
+            <h:message for="y-inputHidden" style="color: red"/>
             <br/>
             R:
-            <h:selectBooleanCheckbox label="1" id="p1R" onclick="checkboxClick(this)"/>
+            <h:selectBooleanCheckbox label="1" id="p1R" class="checkboxR"  onclick="checkboxClick(this)" binding="#{checkbox1}" value="#{resultsBean.newPoint.r1}"/>
             <label for="p1R">1</label>
-            <h:selectBooleanCheckbox label="2" id="p2R" onclick="checkboxClick(this)"/>
+            <h:selectBooleanCheckbox label="2" id="p2R" class="checkboxR"  onclick="checkboxClick(this)" binding="#{checkbox2}" value="#{resultsBean.newPoint.r2}"/>
             <label for="p2R">2</label>
-            <h:selectBooleanCheckbox label="3" id="p3R" onclick="checkboxClick(this)"/>
+            <h:selectBooleanCheckbox label="3" id="p3R" class="checkboxR"  onclick="checkboxClick(this)" binding="#{checkbox3}"  value="#{resultsBean.newPoint.r3}"/>
             <label for="p3R">3</label>
-            <h:selectBooleanCheckbox label="4" id="p4R" onclick="checkboxClick(this)"/>
+            <h:selectBooleanCheckbox label="4" id="p4R" class="checkboxR"  onclick="checkboxClick(this)" binding="#{checkbox4}"  value="#{resultsBean.newPoint.r4}"/>
             <label for="p4R">4</label>
-            <h:selectBooleanCheckbox label="5" id="p5R" onclick="checkboxClick(this)"/>
+            <h:selectBooleanCheckbox label="5" id="p5R" class="checkboxR"  onclick="checkboxClick(this)" binding="#{checkbox5}"  value="#{resultsBean.newPoint.r5}">
+                <f:validator validatorId="RFieldValidator"/>
+                <f:attribute name="checkbox1" value="#{checkbox1}"/>
+                <f:attribute name="checkbox2" value="#{checkbox2}"/>
+                <f:attribute name="checkbox3" value="#{checkbox3}"/>
+                <f:attribute name="checkbox4" value="#{checkbox4}"/>
+            </h:selectBooleanCheckbox>
             <label for="p5R">5</label>
+            <br/>
+            <h:message for="p5R" style="color: red"/>
+            <br/>
         </div>
-        <br/>
-        <h:commandButton id="submit" type="submit" value="Отправить" action="#{resultsBean.addPoint()}"/>
+        <h:commandButton id="submit" type="submit" value="Отправить" onclick="convert(document.getElementById('form:y-inputHidden'))" action="#{resultsBean.addPoint()}"/>
     </h:form>
-    <table class="result-table">
+    <table class="result-table" id="resultTable" style="text-align: center">
         <tr>
             <td>Time</td>
             <td>X</td>
@@ -151,5 +165,6 @@
         </c:forEach>
     </table>
 </div>
+<script src="resources/js/main.js" type="text/javascript"/>
 </body>
 </html>

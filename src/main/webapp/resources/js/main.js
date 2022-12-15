@@ -1,3 +1,18 @@
+graphInit()
+
+function graphInit() {
+    let pointsList = [...document.querySelector('#resultTable').rows].map((tr) => {
+        return [...tr.cells].map((td) => td.textContent);
+    })
+    for (let i = 1; i < 6; i++) {
+        if (pointsList[1][2+i] === "true") {
+            let checkbox = document.getElementById("form:p"+i+"R")
+            checkbox.checked = true
+            checkboxClick(checkbox)
+        }
+    }
+}
+
 function addArea(r) {
     let numberR = Number(r)
     let areaFill = 810 - numberR
@@ -15,21 +30,22 @@ function addArea(r) {
 function checkboxClick(checkbox){
     if (!checkbox.checked) {
         document.getElementById("g"+checkbox.id[6]).innerHTML = '';
+        document.getElementById("dot"+checkbox.id[6]).innerHTML = '';
     } else {
         addArea(checkbox.id[6]);
         drawPointsFromDB(checkbox.id[6])
     }
 }
 
-function svgClick(event, svg, r) {
+function svgClick(event, svg) {
     let svgCoord = svg.getBoundingClientRect() // DOMRect object
 
-    let xPartOfSvg = (event.clientX - svgCoord.x)/svgCoord.width // координата(в долях) клика относительно svg
+    let xPartOfSvg = (event.clientX - svgCoord.x)/svgCoord.width // координата(в долях) клика относительно размеров svg
     let yPartOfSvg = (event.clientY - svgCoord.y)/svgCoord.height
     drawPoint(svg, (xPartOfSvg) * 960, (yPartOfSvg) * 960)
 
-    let x = (xPartOfSvg - 0.5) * 3 * r
-    let y = -1 * (yPartOfSvg - 0.5) * 3 * r
+    let x = (xPartOfSvg - 0.5) * 12
+    let y = -1 * (yPartOfSvg - 0.5) * 12
     formClick(x, y)
 }
 // когда кликают по свг, то точки отрисовываются на свг, но точки из бд отрисовываются в группах, при чём при каждой смене радиуса
@@ -37,32 +53,41 @@ function drawPoint(svgOrG, x, y, resultFill='black'){
     svgOrG.innerHTML += `<circle cx="${x}" cy="${y}" r='7' fill="${resultFill}"/>`;
 }
 
-
-let x_elem = document.getElementById("x")
-let y_elem = document.getElementById("y-inputHidden")
-let submit_elem = document.getElementById("submit")
 function formClick(x, y){
-    x_elem.value = x;
-    y_elem.value = y;
-    submit_elem.click();
+    document.getElementById("form:hiddenX").value = x;
+    document.getElementById("form:hiddenY").value = y;
+    document.getElementById("form:x").value = 0.0;
+    document.getElementById("form:y-inputHidden").value = 0.0;
+
+    document.getElementById("form:submit").click();
 }
 
-let pointsList = document.querySelectorAll(".result-table td")
-
 function drawPointsFromDB(r){
-    for (let i = 10; i < pointsList.length; i += 10) {
-        if (pointsList[i+2+r].innerHTML === "true") {
-            let result = pointsList[i+8].innerHTML;
-            let x = Number(pointsList[i+1]);
-            let y = Number(pointsList[i+2]);
-            let fill = "FireBrick";
-            if (result.startsWith("In")) {
-                fill = "MediumAquamarine";
-            }
+    let pointsList = [...document.querySelector('#resultTable').rows].map((tr) => {
+        return [...tr.cells].map((td) => td.textContent);
+    })
+    for (let i = 1; i < pointsList.length; i++) {
+        console.log(i)
+        if (pointsList[i][2+Number(r)] === "true") {
+            let result = pointsList[i][8];
+            let x = Number(pointsList[i][1]);
+            let y = Number(pointsList[i][2]);
             if (x <= 960 && y <= 960) {
-                drawPoint("g"+i, x, y, fill)
+                let fill = "red";
+                if (result.startsWith("In")) {
+                    //когда кликают чекбокс, отрисовываться должна точка только на g dot, соответствующей этому радиусу
+                    let successR = result.substring(pointsList[i][8].indexOf(":") + 2, pointsList[i][8].length).split(" ")
+                    if (successR.includes(r)) {
+                        fill = "green";
+                    }
+                }
+                drawPoint(document.getElementById("dot"+r), (x/12 + 0.5) * 960, (y/(-12) + 0.5) * 960, fill)
             }
         }
     }
 //строчка для извлечения радиусов, в которые точка попала let rList = result.substring(result.indexOf(":") + 2, result.length()).split(" ");
+}
+
+function convert(yElem) {
+    yElem.value = yElem.value.replace(",", ".")
 }

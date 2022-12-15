@@ -9,13 +9,15 @@ import java.math.RoundingMode;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.List;
 
 import static java.lang.Math.pow;
 
 // поле name = X задает имя таблицы как Х, а не аналогичное названию класса
-@Entity(name = "Points")
+@Entity
 public class Point {
 
     @Id
@@ -23,7 +25,9 @@ public class Point {
     private int id;
 
     private double x;
+    private double hiddenX;
     private double y;
+    private double hiddenY;
     private boolean r1;
     private boolean r2;
     private boolean r3;
@@ -72,6 +76,22 @@ public class Point {
         this.res = res;
     }
 
+    public double getHiddenX() {
+        return hiddenX;
+    }
+
+    public double getHiddenY() {
+        return hiddenY;
+    }
+
+    public void setHiddenX(double hiddenX) {
+        this.hiddenX = hiddenX;
+    }
+
+    public void setHiddenY(double hiddenY) {
+        this.hiddenY = hiddenY;
+    }
+
     public double getX() {
         return this.x;
     }
@@ -87,6 +107,7 @@ public class Point {
     }
 
     public void setY(double y) {
+
         this.y = y;
     }
 
@@ -144,26 +165,37 @@ public class Point {
     }
 
     public void checkHit() {
-        Map<Integer, Boolean> hittingMap= new HashMap<>();
+        System.out.println(this.r1 + " " +  this.r2 + " " + this.r3 + " " + this.r4 + " " + this.r5);
+        Map<Integer, Boolean> hittingMap = new HashMap<>();
+        List<Boolean> rList = Arrays.asList(this.r1, this.r2, this.r3, this.r4, this.r5);
         for (int i = 1; i < 6; i++) {
-            hittingMap.put(i, r1 && rectangle(x, y, i));
+            hittingMap.put(i, rList.get(i-1) && rectangle(this.x, this.y, i));
         }
 
-        if (hittingMap.get(1) && hittingMap.get(2) && hittingMap.get(3) && hittingMap.get(4) && hittingMap.get(5)) {
+        if (hittingMap.get(1) || hittingMap.get(2) || hittingMap.get(3) || hittingMap.get(4) || hittingMap.get(5)) {
             setRes("In rectangles with r:");
             addHittingToResult(hittingMap);
+            return;
+        } else {
             for (int i = 1; i < 6; i++) {
-                hittingMap.put(i, r1 && circle(x, y, i));
+                hittingMap.put(i, rList.get(i-1) && circle(x, y, i));
             }
-        } else if (hittingMap.get(1) && hittingMap.get(2) && hittingMap.get(3) && hittingMap.get(4) && hittingMap.get(5)) {
+        }
+
+        if (hittingMap.get(1) || hittingMap.get(2) || hittingMap.get(3) || hittingMap.get(4) || hittingMap.get(5)) {
             setRes("In quarter circle with r:");
             addHittingToResult(hittingMap);
+            return;
+        } else {
             for (int i = 1; i < 6; i++) {
-                hittingMap.put(i, r1 && triangle(x, y, i));
+                hittingMap.put(i, rList.get(i-1) && triangle(x, y, i));
             }
-        } else if (hittingMap.get(1) && hittingMap.get(2) && hittingMap.get(3) && hittingMap.get(4) && hittingMap.get(5)) {
+        }
+
+        if (hittingMap.get(1) || hittingMap.get(2) || hittingMap.get(3) || hittingMap.get(4) || hittingMap.get(5)) {
             setRes("In triangles with r:");
             addHittingToResult(hittingMap);
+            return;
         } else {
             setRes("Outside the area");
         }
@@ -174,6 +206,15 @@ public class Point {
             if (hittingMap.get(hitting)) {
                 setRes(getRes() + " " + hitting.toString());
             }
+        }
+    }
+
+    public void checkHidden() {
+        if (this.x == 0d && this.hiddenX != 0d) {
+            this.x = this.hiddenX;
+        }
+        if (this.y == 0d && this.hiddenY != 0d) {
+            this.y = this.hiddenY;
         }
     }
 }

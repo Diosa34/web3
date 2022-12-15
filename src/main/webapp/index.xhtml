@@ -29,15 +29,18 @@
     </div>
     <br/><br/>
     <div class="content">
-        <h:outputText id="clock" styleClass="clock" value="Текущее время: #{clockBean.dateTime}"/>
-        <br/>
-        <p:poll interval="9" listener="#{clockBean.updateTime}" update="clock"> </p:poll>
-        <br/>
+        <div id="main">
+            <div id="time-container">
+                <p>Текущее время: </p>
+            </div>
+
+            <script src="resources/js/clock.js" type="text/javascript"> </script>
+            <br/>
+        </div>
         <h:link outcome="toMain">
             Перейти к графику
         </h:link>
     </div>
-
 </h:body>
 
 </html>
